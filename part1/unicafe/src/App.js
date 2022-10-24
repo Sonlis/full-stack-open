@@ -2,17 +2,20 @@ import { useState } from 'react'
 
 const Statistics = (props) => {
     const all = props.bad + props.neutral + props.good
-    return (
-        <>
-            <h2>statistics</h2>
-            <p>good {props.good}</p>
-            <p>neutral {props.neutral}</p>
-            <p>bad {props.bad}</p>
-            <p>total {all}</p>
-            <p>average {(props.good - props.bad) / all} </p>
-            <p>positive {(props.good / all) * 100}</p>
-        </>
-    )
+    if (all !== 0) {
+        return (
+            <>
+                <h2>statistics</h2>
+                <p>good {props.good}</p>
+                <p>neutral {props.neutral}</p>
+                <p>bad {props.bad}</p>
+                <p>total {all}</p>
+                <p>average {(props.good - props.bad) / all} </p>
+                <p>positive {(props.good / all) * 100}</p>
+            </>
+        )
+    }
+
 }
 
 const App = () => {
