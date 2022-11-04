@@ -25,10 +25,14 @@ const App = () => {
   const randomAnecdote = () => setSelected((getRndInteger(0,6)))
   return (
       <div>
+        <h2>Anecdote of the day</h2>
         <p>{anecdotes[selected]}</p>
         <button onClick={randomAnecdote}>next anecdote</button>
         <p>Has {votes[selected]} votes</p>
         <button onClick={voteAnecdote}>vote</button>
+        <h2>Anecdote with most vote</h2>
+        <p>{anecdotes[votes.indexOf(Math.max(...votes))]}</p>
+        <p>Has {Math.max(...votes)} votes</p>
       </div>
   )
 }
