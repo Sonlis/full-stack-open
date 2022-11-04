@@ -1,10 +1,12 @@
 const Header = ({ course }) => <h1>{course.name}</h1>
 
 const Total = ({ course }) => {
-    let total = 0;
-    course.parts.map(part =>
-        total += part.exercises
-    )
+    const initialValue = 0;
+    const total = course.parts.reduce((previousValue, currentValue) => {
+            return previousValue + currentValue.exercises;
+        },
+        initialValue
+    );
     return (
         <p>total of {total}</p>
     )
