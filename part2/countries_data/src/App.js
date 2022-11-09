@@ -11,7 +11,9 @@ const Countries = ({countries}) => {
         return (
             <>
                 {countries.map(country => {
-                    return <p key={country.ccn3}>{country.name.common}</p>
+                    return (
+                        <p key={country.ccn3}>{country.name.common}</p>
+                    )
                 })}
             </>
         )
