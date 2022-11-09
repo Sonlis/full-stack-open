@@ -55,7 +55,6 @@ const App = () => {
     const filterNames = (event) => setNewFilter(event.target.value);
     const [newName, setNewName] = useState('');
     const [newNumber, setNewNumber] = useState('');
-
     const handleNameChange = (event) => setNewName(event.target.value);
     const handleNumberChange = (event) => setNewNumber(event.target.value);
 
@@ -65,7 +64,7 @@ const App = () => {
                 .then(response => {
                     personsService.getAll()
                         .then( response => {
-                            setPersons(persons.concat(response.data))
+                            setPersons(response.data)
                             }
                         )
                     }
@@ -75,8 +74,25 @@ const App = () => {
 
     const setNewPerson = (event) => {
         event.preventDefault();
-        if (persons.some(person => person.name === newName)) {
-            window.alert(`${newName} is already in the phonebook`)
+        let exist = false;
+        persons.forEach(person => {
+            if (person.name === newName) {
+                if (window.confirm(`User ${person.name} is already in the phonebook, replace their number?`)) {
+                    exist = true;
+                    personsService.put(newName, newNumber, person.id)
+                        .then( response => {
+                            personsService.getAll()
+                                .then( response => {
+                                    setPersons(response.data)
+                                    setNewName('')
+                                    setNewNumber('')
+                                })
+                            }
+                        )
+                }
+            }
+        })
+        if (exist) {
             return
         }
         const newPerson = {

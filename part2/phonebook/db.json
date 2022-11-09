@@ -1,19 +1,9 @@
 {
   "persons": [
     {
-      "name": "sdfsdf",
-      "number": "sdfsd",
+      "name": "oui",
+      "number": "non",
       "id": 1
-    },
-    {
-      "name": "sdfsdfs",
-      "number": "sdfsd",
-      "id": 2
-    },
-    {
-      "name": "daad",
-      "number": "sdfsd",
-      "id": 3
     }
   ]
 }
