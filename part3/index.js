@@ -1,8 +1,11 @@
 const express = require('express')
 const {request} = require("express");
 const app = express()
+const morgan = require('morgan')
+
 
 app.use(express.json())
+app.use(morgan('combined', 'tiny'))
 
 let data = [
     {
