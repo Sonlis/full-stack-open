@@ -1,9 +1,8 @@
 const express = require('express')
-const {request} = require("express");
 const cors = require('cors')
 const app = express()
 const morgan = require('morgan')
-morgan.token('type', function (req, res) { return req.body })
+morgan.token('type', function (req) { return req.body })
 
 const errorHandler = (error, request, response, next) => {
     console.error(error.message)
@@ -27,15 +26,15 @@ app.get('/api/persons', (request, response, next) => {
     Person.find({}).then(persons => {
         response.json(persons)
     })
-    .catch(error => next(error))
+        .catch(error => next(error))
 })
 
 app.get('/info', (request, response, next) => {
-    const now = new Date();
+    const now = new Date()
     Person.find({}).then(persons => {
-        response.send(`<p>Phonebook has info for ${persons.length} people</p><p>${now}</p>`);
+        response.send(`<p>Phonebook has info for ${persons.length} people</p><p>${now}</p>`)
     })
-    .catch(error => next(error))
+        .catch(error => next(error))
 
 })
 
@@ -43,7 +42,7 @@ app.get('/api/persons/:id', (request, response, next) => {
     Person.findById(request.params.id).then(note => {
         response.json(note)
     })
-    .catch(error => next(error))
+        .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
@@ -61,16 +60,16 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response,next) => {
     Person.findByIdAndRemove(request.params.id)
-        .then(result => {
+        .then( () => {
             response.status(204).end()
-            })
+        })
         .catch(error => next(error))
 
     response.status(204).end()
 })
 
 app.post('/api/persons', (request, response, next) => {
-    const body = request.body;
+    const body = request.body
     if (body.name === undefined || body.number === undefined) {
         return response.status(400).json({
             error: 'name or number missing'
@@ -82,9 +81,9 @@ app.post('/api/persons', (request, response, next) => {
         phoneNumber: body.number
     })
     person.save().then(savedPerson => {
-            response.json(savedPerson)
+        response.json(savedPerson)
     })
-    .catch(error => next(error))
+        .catch(error => next(error))
 })
 
 const PORT = process.env.PORT || 3001
