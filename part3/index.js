@@ -32,7 +32,11 @@ app.get('/api/persons', (request, response, next) => {
 
 app.get('/info', (request, response, next) => {
     const now = new Date();
-    response.send(`<p>Phonebook has info for ${people} people</p><p>${now}</p>`);
+    Person.find({}).then(persons => {
+        response.send(`<p>Phonebook has info for ${persons.length} people</p><p>${now}</p>`);
+    })
+    .catch(error => next(error))
+
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
