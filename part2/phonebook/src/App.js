@@ -32,7 +32,7 @@ const Persons = (props) => {
                 if (person.name.includes(props.filter)) {
                     return (
                         <>
-                            <p key={person.name}>{person.name} {person.number}</p>
+                            <p key={person.name}>{person.name} {person.phoneNumber}</p>
                             <button key={person.id} onClick={() => props.removeUser(person)}>delete</button>
                         </>
                     )
@@ -110,7 +110,7 @@ const App = () => {
       <div>
         <h2>Phonebook</h2>
           <Filter filterNames={filterNames}/>
-        <h2>Add a new</h2>
+        <h2>Add a new person</h2>
           <PersonForm newName={newName} newNumber={newNumber} setNewPerson={setNewPerson} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
         <h2>Numbers</h2>
           <Persons persons={persons} filter={filter} removeUser={removeUser}/>
