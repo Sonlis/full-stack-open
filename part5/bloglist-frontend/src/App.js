@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import loginService from './services/login'
@@ -15,9 +15,12 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
 
-  useEffect(async () => {
-    const initialBlogs = await blogService.getAll()
-    setBlogs(initialBlogs)
+  useEffect(() => {
+    async function getInitialsBlogs(){
+        const initialBlogs = await blogService.getAll()
+        setBlogs(initialBlogs)
+    }
+    getInitialsBlogs()
   }, [])
 
   useEffect(() => {
@@ -41,18 +44,21 @@ const App = () => {
         }, 5000)
     }
   }
-  const createBlog = (blogObject) => {
-    blogService
-      .create(blogObject)
-        .then(returnedBlog => {
-            setBlogs(blogs.concat(returnedBlog))
-          })
-      setErrorMessage(`${blogObject.title} by ${blogObject.author} created`)
-      setTimeout(() => {
-          setErrorMessage(null)
-      }, 5000)
+  const createBlog = async (blogObject) => {
+    blogFormRef.current.toggleVisibility()
+    const response = await blogService.create(blogObject)
+    setBlogs(response)
+    setErrorMessage(`${blogObject.title} by ${blogObject.author} created`)
+    setTimeout(() => {
+        setErrorMessage(null)
+    }, 5000)
     }
 
+  const increaseLikes = async (blogObject) => {
+      blogObject.likes += 1
+      const response = await blogService.update(blogObject.id, blogObject)
+      setBlogs(response)
+  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -74,6 +80,8 @@ const App = () => {
       }, 5000)
     }
   }
+
+  const blogFormRef = useRef()
   return (
     <div>
       <h1>Blogs app</h1>
@@ -93,7 +101,7 @@ const App = () => {
       {user &&
     <div>
         <p>{user.name} logged in</p> <button onClick={handleLogout}>Logout</button>
-        <Togglable buttonLabel="Create new blog">
+        <Togglable buttonLabel="Create new blog" ref={blogFormRef}>
           <BlogForm
             username={username}
             password={password}
@@ -110,6 +118,7 @@ const App = () => {
             <Blog
               key={blog.id}
               blog={blog}
+              increaseLikes={increaseLikes}
             />
           )}
         </ul>
