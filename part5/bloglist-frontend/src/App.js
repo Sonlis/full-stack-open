@@ -18,6 +18,7 @@ const App = () => {
   useEffect(() => {
     async function getInitialsBlogs(){
         const initialBlogs = await blogService.getAll()
+        initialBlogs.sort((a, b) => b.likes - a.likes)
         setBlogs(initialBlogs)
     }
     getInitialsBlogs()
@@ -57,6 +58,7 @@ const App = () => {
   const increaseLikes = async (blogObject) => {
       blogObject.likes += 1
       const response = await blogService.update(blogObject.id, blogObject)
+      response.sort((a, b) => b.likes - a.likes);
       setBlogs(response)
   }
 
