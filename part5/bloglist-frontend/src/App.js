@@ -15,12 +15,9 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
 
-  useEffect(() => {
-    blogService
-      .getAll()
-      .then(initialBlogs => {
-        setBlogs(initialBlogs)
-      })
+  useEffect(async () => {
+    const initialBlogs = await blogService.getAll()
+    setBlogs(initialBlogs)
   }, [])
 
   useEffect(() => {
