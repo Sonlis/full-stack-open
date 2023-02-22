@@ -62,6 +62,12 @@ const App = () => {
       setBlogs(response)
   }
 
+  const removeBlog = async (blogObject) => {
+      const response = await blogService.remove(blogObject.id)
+      response.sort((a, b) => b.likes - a.likes);
+      setBlogs(response)
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -121,6 +127,7 @@ const App = () => {
               key={blog.id}
               blog={blog}
               increaseLikes={increaseLikes}
+              removeBlog={removeBlog}
             />
           )}
         </ul>

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, increaseLikes }) => {
+const Blog = ({ blog, increaseLikes, removeBlog }) => {
   const [fullFiew, setFullView] = useState(false)
   const blogStyle = {
     paddingTop: 10,
@@ -24,6 +24,8 @@ const Blog = ({ blog, increaseLikes }) => {
             URL: {blog.url}
             <br />
             {blog.user.username}
+            <br />
+            <button onClick={_ => removeBlog(blog)}>Remove</button>
             </div>}
 
       </div>
